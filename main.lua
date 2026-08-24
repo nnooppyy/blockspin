@@ -596,7 +596,7 @@ FarmButton.MouseButton1Click:Connect(function()
 
                 checkAndUnsit(humanoid)
 
-                local speed = tonumber(SpeedInput.Text) or 25
+                local speed = 30
 
                 -- =================================================
                 -- ما معه صندوق
