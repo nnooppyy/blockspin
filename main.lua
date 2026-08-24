@@ -89,8 +89,8 @@ SpeedInput.Size = UDim2.new(0.9, 0, 0, 30)
 SpeedInput.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 SpeedInput.TextColor3 = Color3.fromRGB(255, 255, 255)
 SpeedInput.PlaceholderText = "السرعة (افتراضي: 25)"
-SpeedInput.Text = "25"
-SpeedInput.TextSize = 13
+SpeedInput.PlaceholderText = "السرعة ثابتة: 30"
+SpeedInput.Text = "30"
 SpeedInput.ZIndex = 50
 
 FarmButton.Parent = MainFrame
