@@ -1,0 +1,701 @@
+-- التأكد من تحميل اللاعب والـ PlayerGui
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+local GuiService = game:GetService("GuiService")
+
+-- رابط الديسكورد
+local DiscordInviteLink = "https://discord.gg/zux"
+
+-- حذف أي نسخة قديمة لتجنب التكرار
+if PlayerGui:FindFirstChild("UltimateControlGui") then
+    PlayerGui.UltimateControlGui:Destroy()
+end
+
+-- إنشاء الشاشة الرئيسية
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "UltimateControlGui"
+ScreenGui.Parent = PlayerGui
+ScreenGui.ResetOnSpawn = false
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+-- زر الدائرة العائم (شعار Zunex الخاص بك)
+local FloatingToggle = Instance.new("ImageButton")
+FloatingToggle.Parent = ScreenGui
+FloatingToggle.Size = UDim2.new(0, 52, 0, 52)
+FloatingToggle.Position = UDim2.new(0.02, 0, 0.38, 0)
+FloatingToggle.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+FloatingToggle.Image = "rbxassetid://102828634787804" 
+FloatingToggle.Draggable = true
+FloatingToggle.ZIndex = 100
+
+local CircleCorner = Instance.new("UICorner")
+CircleCorner.CornerRadius = UDim.new(1, 0)
+CircleCorner.Parent = FloatingToggle
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(80, 80, 100)
+UIStroke.Thickness = 2.5
+UIStroke.Parent = FloatingToggle
+
+-- القائمة الرئيسية
+local MainFrame = Instance.new("Frame")
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 42)
+MainFrame.BackgroundTransparency = 0.25
+MainFrame.Position = UDim2.new(0.08, 0, 0.22, 0)
+MainFrame.Size = UDim2.new(0, 360, 0, 240)
+MainFrame.Active = true
+MainFrame.Draggable = true
+MainFrame.ZIndex = 50
+
+local MainCorner = Instance.new("UICorner")
+MainCorner.CornerRadius = UDim.new(0, 12)
+MainCorner.Parent = MainFrame
+
+local MainStroke = Instance.new("UIStroke")
+MainStroke.Color = Color3.fromRGB(90, 90, 110)
+MainStroke.Thickness = 1.5
+MainStroke.Parent = MainFrame
+
+-- شريط العنوان العلوي
+local TopBar = Instance.new("Frame")
+TopBar.Parent = MainFrame
+TopBar.Size = UDim2.new(1, 0, 0, 35)
+TopBar.BackgroundColor3 = Color3.fromRGB(25, 25, 32)
+TopBar.BackgroundTransparency = 0.2
+TopBar.ZIndex = 51
+
+local TopCorner = Instance.new("UICorner")
+TopCorner.CornerRadius = UDim.new(0, 12)
+TopCorner.Parent = TopBar
+
+local FixCorner = Instance.new("Frame")
+FixCorner.Parent = TopBar
+FixCorner.Size = UDim2.new(1, 0, 0, 10)
+FixCorner.Position = UDim2.new(0, 0, 1, -10)
+FixCorner.BackgroundColor3 = Color3.fromRGB(25, 25, 32)
+FixCorner.BackgroundTransparency = 0.2
+FixCorner.BorderSizePixel = 0
+FixCorner.ZIndex = 51
+
+-- العنوان
+local Title = Instance.new("TextLabel")
+Title.Parent = TopBar
+Title.Size = UDim2.new(1, -120, 1, 0)
+Title.Position = UDim2.new(0, 12, 0, 0)
+Title.BackgroundTransparency = 1
+Title.Text = "✨ Zunex Store"
+Title.TextColor3 = Color3.fromRGB(230, 230, 240)
+Title.TextSize = 13
+Title.Font = Enum.Font.GothamBold
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.ZIndex = 52
+
+local CloseButton = Instance.new("TextButton")
+CloseButton.Parent = TopBar
+CloseButton.Size = UDim2.new(0, 26, 0, 26)
+CloseButton.Position = UDim2.new(1, -30, 0.5, -13)
+CloseButton.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
+CloseButton.Text = "✕"
+CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseButton.TextSize = 12
+CloseButton.Font = Enum.Font.GothamBold
+CloseButton.ZIndex = 52
+
+local CloseCorner = Instance.new("UICorner")
+CloseCorner.CornerRadius = UDim.new(0, 6)
+CloseCorner.Parent = CloseButton
+
+----------------------------------------------------
+-- التقسيم الداخلي للتبويبات
+----------------------------------------------------
+
+local Sidebar = Instance.new("Frame")
+Sidebar.Parent = MainFrame
+Sidebar.Size = UDim2.new(0, 110, 1, -45)
+Sidebar.Position = UDim2.new(0, 8, 0, 40)
+Sidebar.BackgroundColor3 = Color3.fromRGB(28, 28, 35)
+Sidebar.BackgroundTransparency = 0.4
+Sidebar.ZIndex = 51
+
+local SidebarCorner = Instance.new("UICorner")
+SidebarCorner.CornerRadius = UDim.new(0, 8)
+SidebarCorner.Parent = Sidebar
+
+local SidebarLayout = Instance.new("UIListLayout")
+SidebarLayout.Parent = Sidebar
+SidebarLayout.SortOrder = Enum.SortOrder.LayoutOrder
+SidebarLayout.Padding = UDim.new(0, 8)
+SidebarLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+local TabFarmButton = Instance.new("TextButton")
+TabFarmButton.Parent = Sidebar
+TabFarmButton.Size = UDim2.new(0.9, 0, 0, 34)
+TabFarmButton.BackgroundColor3 = Color3.fromRGB(60, 60, 75)
+TabFarmButton.Text = "📦 Farm"
+TabFarmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TabFarmButton.TextSize = 12
+TabFarmButton.Font = Enum.Font.GothamBold
+TabFarmButton.ZIndex = 52
+
+local TabFarmCorner = Instance.new("UICorner")
+TabFarmCorner.CornerRadius = UDim.new(0, 6)
+TabFarmCorner.Parent = TabFarmButton
+
+local TabOtherButton = Instance.new("TextButton")
+TabOtherButton.Parent = Sidebar
+TabOtherButton.Size = UDim2.new(0.9, 0, 0, 34)
+TabOtherButton.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+TabOtherButton.BackgroundTransparency = 0.3
+TabOtherButton.Text = "🛠️ Other"
+TabOtherButton.TextColor3 = Color3.fromRGB(180, 180, 200)
+TabOtherButton.TextSize = 12
+TabOtherButton.Font = Enum.Font.GothamBold
+TabOtherButton.ZIndex = 52
+
+local TabOtherCorner = Instance.new("UICorner")
+TabOtherCorner.CornerRadius = UDim.new(0, 6)
+TabOtherCorner.Parent = TabOtherButton
+
+local TabSettingsButton = Instance.new("TextButton")
+TabSettingsButton.Parent = Sidebar
+TabSettingsButton.Size = UDim2.new(0.9, 0, 0, 34)
+TabSettingsButton.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+TabSettingsButton.BackgroundTransparency = 0.3
+TabSettingsButton.Text = "⚙️ Settings"
+TabSettingsButton.TextColor3 = Color3.fromRGB(180, 180, 200)
+TabSettingsButton.TextSize = 12
+TabSettingsButton.Font = Enum.Font.GothamBold
+TabSettingsButton.ZIndex = 52
+
+local TabSettingsCorner = Instance.new("UICorner")
+TabSettingsCorner.CornerRadius = UDim.new(0, 6)
+TabSettingsCorner.Parent = TabSettingsButton
+
+local ContentArea = Instance.new("Frame")
+ContentArea.Parent = MainFrame
+ContentArea.Size = UDim2.new(1, -135, 1, -45)
+ContentArea.Position = UDim2.new(0, 124, 0, 40)
+ContentArea.BackgroundTransparency = 1
+ContentArea.ZIndex = 51
+
+----------------------------------------------------
+-- 1. محتوى قسم الفارم
+----------------------------------------------------
+local FarmContent = Instance.new("ScrollingFrame")
+FarmContent.Parent = ContentArea
+FarmContent.Size = UDim2.new(1, 0, 1, 0)
+FarmContent.BackgroundTransparency = 1
+FarmContent.Visible = true
+FarmContent.CanvasSize = UDim2.new(0, 0, 0, 120)
+FarmContent.ScrollBarThickness = 3
+FarmContent.ZIndex = 51
+
+local FarmContentLayout = Instance.new("UIListLayout")
+FarmContentLayout.Parent = FarmContent
+FarmContentLayout.SortOrder = Enum.SortOrder.LayoutOrder
+FarmContentLayout.Padding = UDim.new(0, 10)
+FarmContentLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+local FarmToggleContainer = Instance.new("TextButton")
+FarmToggleContainer.Parent = FarmContent
+FarmToggleContainer.Size = UDim2.new(0.95, 0, 0, 40)
+FarmToggleContainer.BackgroundColor3 = Color3.fromRGB(45, 45, 55)
+FarmToggleContainer.BackgroundTransparency = 0.3
+FarmToggleContainer.Text = ""
+FarmToggleContainer.AutoButtonColor = false
+FarmToggleContainer.ZIndex = 52
+
+local FarmToggleCorner = Instance.new("UICorner")
+FarmToggleCorner.CornerRadius = UDim.new(0, 6)
+FarmToggleCorner.Parent = FarmToggleContainer
+
+local FarmToggleLabel = Instance.new("TextLabel")
+FarmToggleLabel.Parent = FarmToggleContainer
+FarmToggleLabel.Size = UDim2.new(1, -55, 1, 0)
+FarmToggleLabel.Position = UDim2.new(0, 10, 0, 0)
+FarmToggleLabel.BackgroundTransparency = 1
+FarmToggleLabel.Text = "Quick-11 📦"
+FarmToggleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+FarmToggleLabel.TextSize = 12
+FarmToggleLabel.Font = Enum.Font.GothamBold
+FarmToggleLabel.TextXAlignment = Enum.TextXAlignment.Left
+FarmToggleLabel.ZIndex = 53
+
+local SwitchBackground = Instance.new("Frame")
+SwitchBackground.Parent = FarmToggleContainer
+SwitchBackground.Size = UDim2.new(0, 38, 0, 20)
+SwitchBackground.Position = UDim2.new(1, -44, 0.5, -10)
+SwitchBackground.BackgroundColor3 = Color3.fromRGB(80, 80, 95)
+SwitchBackground.ZIndex = 53
+
+local SwitchBgCorner = Instance.new("UICorner")
+SwitchBgCorner.CornerRadius = UDim.new(1, 0)
+SwitchBgCorner.Parent = SwitchBackground
+
+local SwitchKnob = Instance.new("Frame")
+SwitchKnob.Parent = SwitchBackground
+SwitchKnob.Size = UDim2.new(0, 16, 0, 16)
+SwitchKnob.Position = UDim2.new(0, 2, 0.5, -8)
+SwitchKnob.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+SwitchKnob.ZIndex = 54
+
+local SwitchKnobCorner = Instance.new("UICorner")
+SwitchKnobCorner.CornerRadius = UDim.new(1, 0)
+SwitchKnobCorner.Parent = SwitchKnob
+
+----------------------------------------------------
+-- 2. محتوى قسم الأذر (Other)
+----------------------------------------------------
+local OtherContent = Instance.new("Frame")
+OtherContent.Parent = ContentArea
+OtherContent.Size = UDim2.new(1, 0, 1, 0)
+OtherContent.BackgroundTransparency = 1
+OtherContent.Visible = false
+OtherContent.ZIndex = 51
+
+local OtherContentLayout = Instance.new("UIListLayout")
+OtherContentLayout.Parent = OtherContent
+OtherContentLayout.SortOrder = Enum.SortOrder.LayoutOrder
+OtherContentLayout.Padding = UDim.new(0, 10)
+OtherContentLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+local RespawnToggleContainer = Instance.new("TextButton")
+RespawnToggleContainer.Parent = OtherContent
+RespawnToggleContainer.Size = UDim2.new(0.95, 0, 0, 40)
+RespawnToggleContainer.BackgroundColor3 = Color3.fromRGB(45, 45, 55)
+RespawnToggleContainer.BackgroundTransparency = 0.3
+RespawnToggleContainer.Text = ""
+RespawnToggleContainer.AutoButtonColor = false
+RespawnToggleContainer.ZIndex = 52
+
+local RespawnToggleCorner = Instance.new("UICorner")
+RespawnToggleCorner.CornerRadius = UDim.new(0, 6)
+RespawnToggleCorner.Parent = RespawnToggleContainer
+
+local RespawnToggleLabel = Instance.new("TextLabel")
+RespawnToggleLabel.Parent = RespawnToggleContainer
+RespawnToggleLabel.Size = UDim2.new(1, -55, 1, 0)
+RespawnToggleLabel.Position = UDim2.new(0, 10, 0, 0)
+RespawnToggleLabel.BackgroundTransparency = 1
+RespawnToggleLabel.Text = "Auto Respawn 🔄"
+RespawnToggleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+RespawnToggleLabel.TextSize = 12
+RespawnToggleLabel.Font = Enum.Font.GothamBold
+RespawnToggleLabel.TextXAlignment = Enum.TextXAlignment.Left
+RespawnToggleLabel.ZIndex = 53
+
+local RespawnSwitchBackground = Instance.new("Frame")
+RespawnSwitchBackground.Parent = RespawnToggleContainer
+RespawnSwitchBackground.Size = UDim2.new(0, 38, 0, 20)
+RespawnSwitchBackground.Position = UDim2.new(1, -44, 0.5, -10)
+RespawnSwitchBackground.BackgroundColor3 = Color3.fromRGB(80, 80, 95)
+RespawnSwitchBackground.ZIndex = 53
+
+local RespawnSwitchBgCorner = Instance.new("UICorner")
+RespawnSwitchBgCorner.CornerRadius = UDim.new(1, 0)
+RespawnSwitchBgCorner.Parent = RespawnSwitchBackground
+
+local RespawnSwitchKnob = Instance.new("Frame")
+RespawnSwitchKnob.Parent = RespawnSwitchBackground
+RespawnSwitchKnob.Size = UDim2.new(0, 16, 0, 16)
+RespawnSwitchKnob.Position = UDim2.new(0, 2, 0.5, -8)
+RespawnSwitchKnob.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+RespawnSwitchKnob.ZIndex = 54
+
+local RespawnSwitchKnobCorner = Instance.new("UICorner")
+RespawnSwitchKnobCorner.CornerRadius = UDim.new(1, 0)
+RespawnSwitchKnobCorner.Parent = RespawnSwitchKnob
+
+----------------------------------------------------
+-- 3. محتوى قسم الإعدادات
+----------------------------------------------------
+local SettingsContent = Instance.new("Frame")
+SettingsContent.Parent = ContentArea
+SettingsContent.Size = UDim2.new(1, 0, 1, 0)
+SettingsContent.BackgroundTransparency = 1
+SettingsContent.Visible = false
+SettingsContent.ZIndex = 51
+
+local SettingsContentLayout = Instance.new("UIListLayout")
+SettingsContentLayout.Parent = SettingsContent
+SettingsContentLayout.SortOrder = Enum.SortOrder.LayoutOrder
+SettingsContentLayout.Padding = UDim.new(0, 8)
+SettingsContentLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+local ShowPointsButton = Instance.new("TextButton")
+ShowPointsButton.Parent = SettingsContent
+ShowPointsButton.Size = UDim2.new(0.95, 0, 0, 36)
+ShowPointsButton.BackgroundColor3 = Color3.fromRGB(70, 70, 90)
+ShowPointsButton.BackgroundTransparency = 0.2
+ShowPointsButton.Text = "📍 Points: [Hidden]"
+ShowPointsButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ShowPointsButton.TextSize = 12
+ShowPointsButton.Font = Enum.Font.GothamBold
+ShowPointsButton.ZIndex = 52
+
+local PointsCorner = Instance.new("UICorner")
+PointsCorner.CornerRadius = UDim.new(0, 6)
+PointsCorner.Parent = ShowPointsButton
+
+local CopyLinkButton = Instance.new("TextButton")
+CopyLinkButton.Parent = SettingsContent
+CopyLinkButton.Size = UDim2.new(0.95, 0, 0, 36)
+CopyLinkButton.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
+CopyLinkButton.Text = "📋 Copy Server Link"
+CopyLinkButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CopyLinkButton.TextSize = 12
+CopyLinkButton.Font = Enum.Font.GothamBold
+CopyLinkButton.ZIndex = 52
+
+local CopyLinkCorner = Instance.new("UICorner")
+CopyLinkCorner.CornerRadius = UDim.new(0, 6)
+CopyLinkCorner.Parent = CopyLinkButton
+
+local CopyPosButton = Instance.new("TextButton")
+CopyPosButton.Parent = SettingsContent
+CopyPosButton.Size = UDim2.new(0.95, 0, 0, 36)
+CopyPosButton.BackgroundColor3 = Color3.fromRGB(60, 130, 90)
+CopyPosButton.Text = "📍 Copy Position"
+CopyPosButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CopyPosButton.TextSize = 12
+CopyPosButton.Font = Enum.Font.GothamBold
+CopyPosButton.ZIndex = 52
+
+local CopyPosCorner = Instance.new("UICorner")
+CopyPosCorner.CornerRadius = UDim.new(0, 6)
+CopyPosCorner.Parent = CopyPosButton
+
+----------------------------------------------------
+-- نظام التنقل بين التبويبات (Tabs Logic)
+----------------------------------------------------
+local function ResetTabs()
+    TabFarmButton.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    TabFarmButton.TextColor3 = Color3.fromRGB(180, 180, 200)
+    TabOtherButton.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    TabOtherButton.TextColor3 = Color3.fromRGB(180, 180, 200)
+    TabSettingsButton.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    TabSettingsButton.TextColor3 = Color3.fromRGB(180, 180, 200)
+    
+    FarmContent.Visible = false
+    OtherContent.Visible = false
+    SettingsContent.Visible = false
+end
+
+TabFarmButton.MouseButton1Click:Connect(function()
+    ResetTabs()
+    FarmContent.Visible = true
+    TabFarmButton.BackgroundColor3 = Color3.fromRGB(60, 60, 75)
+    TabFarmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+end)
+
+TabOtherButton.MouseButton1Click:Connect(function()
+    ResetTabs()
+    OtherContent.Visible = true
+    TabOtherButton.BackgroundColor3 = Color3.fromRGB(60, 60, 75)
+    TabOtherButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+end)
+
+TabSettingsButton.MouseButton1Click:Connect(function()
+    ResetTabs()
+    SettingsContent.Visible = true
+    TabSettingsButton.BackgroundColor3 = Color3.fromRGB(60, 60, 75)
+    TabSettingsButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+end)
+
+----------------------------------------------------
+-- الأزرار والإعدادات
+----------------------------------------------------
+CopyLinkButton.MouseButton1Click:Connect(function()
+    if setclipboard then
+        setclipboard(DiscordInviteLink)
+        CopyLinkButton.Text = "✅ Link Copied!"
+    end
+    task.wait(1.5)
+    CopyLinkButton.Text = "📋 Copy Server Link"
+end)
+
+CopyPosButton.MouseButton1Click:Connect(function()
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        local pos = LocalPlayer.Character.HumanoidRootPart.Position
+        if setclipboard then
+            setclipboard(string.format("Vector3.new(%.2f, %.2f, %.2f)", pos.X, pos.Y, pos.Z))
+            CopyPosButton.Text = "✅ Position Copied!"
+        end
+    end
+    task.wait(1.5)
+    CopyPosButton.Text = "📍 Copy Position"
+end)
+
+FloatingToggle.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible
+end)
+CloseButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = false
+end)
+
+----------------------------------------------------
+-- نظام الفارم (الأصلي بدون تغيير)
+----------------------------------------------------
+local waypoints = {
+    Vector3.new(61.82, 254.96, 56.74),
+    Vector3.new(47.26, 254.76, 263.28),
+    Vector3.new(160.40, 254.86, 250.37),
+    Vector3.new(160.37, 255.18, 227.71),
+    Vector3.new(159.49, 254.99, 204.32),
+    Vector3.new(164.69, 254.99, 202.29), -- التوظيف (6)
+    Vector3.new(146.79, 255.47, 204.95), -- الصناديق (7)
+    Vector3.new(125.54, 254.74, 201.89), -- المركز الداخلي (8)
+}
+
+local aislePoints = {
+    Vector3.new(121.61, 255.32, 202.77),
+    Vector3.new(125.51, 255.32, 184.90),
+    Vector3.new(128.39, 255.32, 167.04)
+}
+
+local autoFarm = false
+local showPointsEnabled = false
+local TweenService = game:GetService("TweenService")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+local Backpack = LocalPlayer:WaitForChild("Backpack")
+
+-- (هنا تم اختصار كتابة دوال الفارم لتفادي تكرار الأسطر، وهي نفس الدوال السابقة بالملي)
+local function checkAndUnsit(humanoid)
+    if humanoid then
+        if humanoid.Sit then humanoid.Sit = false humanoid.Jump = true end
+        if humanoid.PlatformStand then humanoid.PlatformStand = false end
+    end
+end
+
+local function isInsideGrocery(pos)
+    return pos.X >= 85 and pos.X <= 172 and pos.Z >= 158 and pos.Z <= 218
+end
+
+local function isTeleportDetected()
+    local playerGui = LocalPlayer:FindFirstChild("PlayerGui")
+    if playerGui then
+        for _, gui in ipairs(playerGui:GetDescendants()) do
+            if (gui:IsA("TextLabel") or gui:IsA("TextButton")) and gui.Visible then
+                if string.find(string.lower(gui.Text or ""), "teleport detected") then return true end
+            end
+        end
+    end
+    return false
+end
+
+local function moveToPosition(hrp, targetPos, speed)
+    if not autoFarm then return end
+    local humanoid = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid")
+    checkAndUnsit(humanoid)
+    while isTeleportDetected() and autoFarm do task.wait(0.2) end
+    
+    local safePos = Vector3.new(targetPos.X, hrp.Position.Y, targetPos.Z)
+    local distance = (hrp.Position - safePos).Magnitude
+    local tweenTime = distance / math.max(speed, 1)
+    
+    local tweenInfo = TweenInfo.new(tweenTime, Enum.EasingStyle.Linear)
+    local tween = TweenService:Create(hrp, tweenInfo, {CFrame = CFrame.new(safePos)})
+    tween:Play()
+    
+    local expectedEnd = tick() + tweenTime
+    repeat
+        task.wait(0.05)
+        checkAndUnsit(humanoid)
+        if isTeleportDetected() then
+            tween:Pause()
+            while isTeleportDetected() and autoFarm do task.wait(0.2) end
+            if autoFarm then
+                local remainingDist = (hrp.Position - safePos).Magnitude
+                local remainingTime = remainingDist / math.max(speed, 1)
+                tween = TweenService:Create(hrp, TweenInfo.new(remainingTime, Enum.EasingStyle.Linear), {CFrame = CFrame.new(safePos)})
+                expectedEnd = tick() + remainingTime
+                tween:Play()
+            end
+        end
+    until tick() >= expectedEnd or not autoFarm
+    if not autoFarm then tween:Cancel() end
+end
+
+local function pressEKey()
+    for _ = 1, 6 do
+        VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+        task.wait(0.05)
+        VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
+        task.wait(0.05)
+    end
+end
+
+local function clickCenter()
+    local viewportSize = workspace.CurrentCamera.ViewportSize
+    VirtualInputManager:SendMouseButtonEvent(viewportSize.X / 2, (viewportSize.Y / 2) + 50, 0, true, game, 0)
+    task.wait(0.05)
+    VirtualInputManager:SendMouseButtonEvent(viewportSize.X / 2, (viewportSize.Y / 2) + 50, 0, false, game, 0)
+end
+
+local function playerHasBox()
+    if LocalPlayer.Character then
+        for _, child in ipairs(LocalPlayer.Character:GetChildren()) do
+            if child:IsA("Tool") then return true end
+        end
+        for _, child in ipairs(Backpack:GetChildren()) do
+            if child:IsA("Tool") then return true end
+        end
+    end
+    return false
+end
+
+local function findHiddenDeliveryTarget()
+    local char = LocalPlayer.Character
+    if not char or not char:FindFirstChild("HumanoidRootPart") then return nil end
+    local searchCenter = waypoints[8]
+    local targetPos = nil
+    local minDist = 120
+    for _, obj in ipairs(workspace:GetDescendants()) do
+        if obj:IsA("BasePart") and not obj:IsDescendantOf(char) then
+            local dist = (obj.Position - searchCenter).Magnitude
+            if dist <= minDist then
+                local isMatch = false
+                if obj.Name == "Base" and obj:IsA("MeshPart") and obj.Size.Y < 2.5 then isMatch = true end
+                if obj.Name == "Shelf" and obj.Transparency == 1 then
+                    for _, child in ipairs(obj:GetChildren()) do
+                        if child:IsA("ParticleEmitter") or child:IsA("PointLight") then
+                            if child.Enabled then isMatch = true break end
+                        end
+                    end
+                end
+                if isMatch then minDist = dist targetPos = obj.Position end
+            end
+        end
+    end
+    return targetPos
+end
+
+local function getClosestAislePoint(targetPos)
+    local closestPoint = aislePoints[1]
+    local minDst = math.huge
+    for _, pt in ipairs(aislePoints) do
+        local dst = (pt - targetPos).Magnitude
+        if dst < minDst then minDst = dst closestPoint = pt end
+    end
+    return closestPoint
+end
+
+FarmToggleContainer.MouseButton1Click:Connect(function()
+    autoFarm = not autoFarm
+    local ts = game:GetService("TweenService")
+    local info = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+    
+    if autoFarm then
+        ts:Create(SwitchBackground, info, {BackgroundColor3 = Color3.fromRGB(50, 180, 80)}):Play()
+        ts:Create(SwitchKnob, info, {Position = UDim2.new(1, -18, 0.5, -8)}):Play()
+        
+        task.spawn(function()
+            if not playerHasBox() and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                local hrp = LocalPlayer.Character.HumanoidRootPart
+                if isInsideGrocery(hrp.Position) then
+                    moveToPosition(hrp, waypoints[8], 30)
+                    moveToPosition(hrp, waypoints[7], 30)
+                    moveToPosition(hrp, waypoints[6], 30)
+                else
+                    moveToPosition(hrp, waypoints[6], 30) -- الذهاب لنقطة التوظيف
+                end
+                if autoFarm then task.wait(0.3) clickCenter() task.wait(0.5) end
+            end
+
+            while autoFarm do
+                if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                    local hrp = LocalPlayer.Character.HumanoidRootPart
+                    local speed = 30
+                    if not playerHasBox() then
+                        moveToPosition(hrp, waypoints[7], speed)
+                        task.wait(0.3)
+                        for _ = 1, 8 do
+                            if not autoFarm or playerHasBox() then break end
+                            pressEKey() task.wait(0.2)
+                        end
+                    end
+                    while autoFarm and playerHasBox() do
+                        moveToPosition(hrp, waypoints[8], speed)
+                        local realDeliveryPoint = findHiddenDeliveryTarget()
+                        if realDeliveryPoint then
+                            local targetAislePoint = getClosestAislePoint(realDeliveryPoint)
+                            moveToPosition(hrp, targetAislePoint, speed)
+                            moveToPosition(hrp, Vector3.new(realDeliveryPoint.X, hrp.Position.Y, realDeliveryPoint.Z), speed)
+                            task.wait(1) -- وقت التسليم
+                            moveToPosition(hrp, targetAislePoint, speed)
+                            moveToPosition(hrp, waypoints[8], speed)
+                        else
+                            task.wait(1) break
+                        end
+                    end
+                else
+                    task.wait(1)
+                end
+            end
+        end)
+    else
+        ts:Create(SwitchBackground, info, {BackgroundColor3 = Color3.fromRGB(80, 80, 95)}):Play()
+        ts:Create(SwitchKnob, info, {Position = UDim2.new(0, 2, 0.5, -8)}):Play()
+    end
+end)
+
+
+----------------------------------------------------
+-- 🔴 نظام الـ Auto Respawn 🔴
+----------------------------------------------------
+local autoRespawn = false
+
+RespawnToggleContainer.MouseButton1Click:Connect(function()
+    autoRespawn = not autoRespawn
+    local ts = game:GetService("TweenService")
+    local info = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+    
+    if autoRespawn then
+        ts:Create(RespawnSwitchBackground, info, {BackgroundColor3 = Color3.fromRGB(180, 50, 50)}):Play() -- لون أحمر لتميز الرسبون
+        ts:Create(RespawnSwitchKnob, info, {Position = UDim2.new(1, -18, 0.5, -8)}):Play()
+    else
+        ts:Create(RespawnSwitchBackground, info, {BackgroundColor3 = Color3.fromRGB(80, 80, 95)}):Play()
+        ts:Create(RespawnSwitchKnob, info, {Position = UDim2.new(0, 2, 0.5, -8)}):Play()
+    end
+end)
+
+-- لوب خلفي يبحث عن زر الرسبون ويضغط عليه تلقائياً بعد ما تخلص الـ 7 ثواني (لما يصير اسمه Respawn فقط)
+task.spawn(function()
+    while true do
+        task.wait(0.5)
+        if autoRespawn then
+            local pGui = LocalPlayer:FindFirstChild("PlayerGui")
+            if pGui then
+                -- نبحث داخل كل واجهات اللاعب
+                for _, gui in ipairs(pGui:GetDescendants()) do
+                    -- إذا كان الزر ظاهر وموجود
+                    if gui:IsA("TextButton") and gui.Visible then
+                        local text = string.lower(gui.Text or "")
+                        -- الشرط: إذا كان النص "respawn" بالضبط (يعني خلصت الثواني المكتوبة بين الأقواس)
+                        if text == "respawn" then
+                            local absPos = gui.AbsolutePosition
+                            local absSize = gui.AbsoluteSize
+                            local guiInset = GuiService:GetGuiInset()
+                            
+                            -- التأكد أن الزر له حجم فعلي على الشاشة
+                            if absSize.X > 0 and absSize.Y > 0 then
+                                local centerX = absPos.X + (absSize.X / 2)
+                                local centerY = absPos.Y + (absSize.Y / 2) + guiInset.Y
+                                
+                                -- محاولة ضغط الزر من خلال النظام الوهمي (نفس طريقة توظيف البقالة)
+                                VirtualInputManager:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
+                                task.wait(0.1)
+                                VirtualInputManager:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
+                                
+                                -- انتظار 2 ثانية عشان ما يضغط مليون مرة في نفس اللحظة
+                                task.wait(2)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end)
